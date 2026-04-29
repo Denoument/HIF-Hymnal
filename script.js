@@ -183,17 +183,14 @@ function adjustFontSize() {
     let fontSize = baseSizeVh;
     textEl.style.fontSize = fontSize + "vh";
 
-    // Only auto-shrink the title slide if it overflows
-    // Lyrics stay locked at base size
-    if (slide && slide.type === 'title') {
-        while (
-            (textEl.scrollHeight > container.clientHeight * 0.80 || 
-             textEl.scrollWidth > container.clientWidth * 0.90) && 
-            fontSize > 8
-        ) {
-            fontSize -= 0.5;
-            textEl.style.fontSize = fontSize + "vh";
-        }
+    // Auto-shrink if text overflows (for both title and lyrics)
+    while (
+        (textEl.scrollHeight > container.clientHeight * 0.80 || 
+         textEl.scrollWidth > container.clientWidth * 0.90) && 
+        fontSize > 8
+    ) {
+        fontSize -= 0.5;
+        textEl.style.fontSize = fontSize + "vh";
     }
 }
 
