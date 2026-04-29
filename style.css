@@ -185,6 +185,25 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     text-align: center;
 }
 
+/* Portrait mode reminder on mobile */
+@media (max-width: 900px) and (orientation: portrait) {
+    #presenter::before {
+        content: '↻ Rotate to landscape for best view';
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 15px;
+        font-family: system-ui, sans-serif;
+        z-index: 10;
+        font-weight: 500;
+    }
+}
+
 #presentContent {
     width: 90%;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-out;
@@ -229,66 +248,67 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
 footer {
     background: #1c2128;
     border-top: 1px solid #30363d;
-    padding: 0 8px;
+    padding: 8px 12px;
     display: flex;
     align-items: center;
-    height: 52px;
     flex-shrink: 0;
 }
 
-midi-player {
-    display: block;
+.midi-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
 }
 
-midi-player::part(control-panel) {
-    background: transparent;
-    border: none;
-    padding: 0;
-}
-
-midi-player::part(play-button) {
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.25);
+.midi-controls button {
     background: rgba(255,255,255,0.1);
-    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.2s;
+    flex-shrink: 0;
 }
 
-midi-player::part(play-button):hover {
-    background: rgba(255,255,255,0.22);
+.midi-controls button:hover:not(:disabled) {
+    background: rgba(255,255,255,0.2);
 }
 
-midi-player::part(time) {
+.midi-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#midiStatus {
+    flex: 1;
     color: #c9d1d9;
-    font-family: monospace;
-    font-size: 12px;
-}
-
-midi-player::part(seek-bar) {
-    accent-color: #4f9cf9;
+    font-size: 13px;
+    padding: 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (max-width: 600px) {
     footer { 
-        height: 56px;
-        padding: 0 4px;
+        padding: 6px 8px;
     }
     
-    midi-player {
-        display: block;
-        width: 100%;
-        min-width: 0;
+    .midi-controls button {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
     }
     
-    /* Ensure player controls are visible and touchable */
-    midi-player::part(control-panel) {
-        min-height: 44px;
-    }
-    
-    midi-player::part(play-button) {
-        min-width: 44px;
-        min-height: 44px;
+    #midiStatus {
+        font-size: 12px;
     }
 }
 

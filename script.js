@@ -431,16 +431,58 @@ document.addEventListener('DOMContentLoaded', initSettings);
 
 
 // ============================================================
-// 7. MIDI PLAYER (html-midi-player)
+// 7. MIDI PLAYER (MIDIjs)
 // ============================================================
 
+let currentMidiUrl = '';
+let isPlaying = false;
+
 function midiLoad(url) {
-    const player = document.getElementById('player');
-    player.src = url;
-    player.stop();
+    currentMidiUrl = url;
+    isPlaying = false;
+    updateMidiButtons();
+    
+    if (currentHymn) {
+        document.getElementById('midiStatus').textContent = `${currentHymn.number}. ${currentHymn.title}`;
+    }
+}
+
+function playMIDI() {
+    if (!currentMidiUrl) return;
+    MIDIjs.play(currentMidiUrl);
+    isPlaying = true;
+    updateMidiButtons();
+}
+
+function pauseMIDI() {
+    MIDIjs.stop();
+    isPlaying = false;
+    updateMidiButtons();
+}
+
+function stopMIDI() {
+    MIDIjs.stop();
+    isPlaying = false;
+    updateMidiButtons();
 }
 
 function midiStop() {
-    const player = document.getElementById('player');
-    if (player) player.stop();
+    stopMIDI();
+}
+
+function updateMidiButtons() {
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    
+    if (isPlaying) {
+        playBtn.style.display = 'none';
+        pauseBtn.style.display = 'inline-flex';
+    } else {
+        playBtn.style.display = 'inline-flex';
+        pauseBtn.style.display = 'none';
+    }
+    
+    playBtn.disabled = !currentMidiUrl;
+    pauseBtn.disabled = !currentMidiUrl;
+    document.getElementById('stopBtn').disabled = !currentMidiUrl;
 }
