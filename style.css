@@ -270,7 +270,26 @@ midi-player::part(seek-bar) {
 }
 
 @media (max-width: 600px) {
-    footer { height: 48px; }
+    footer { 
+        height: 56px;
+        padding: 0 4px;
+    }
+    
+    midi-player {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+    
+    /* Ensure player controls are visible and touchable */
+    midi-player::part(control-panel) {
+        min-height: 44px;
+    }
+    
+    midi-player::part(play-button) {
+        min-width: 44px;
+        min-height: 44px;
+    }
 }
 
 /* ============================================================

@@ -126,6 +126,13 @@ function startPresent(auto) {
     slideIdx = 0;
     const presenter = document.getElementById('presenter');
     
+    // Lock to landscape orientation on mobile
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(err => {
+            console.log('Orientation lock not supported:', err);
+        });
+    }
+    
     if (presenter.requestFullscreen) presenter.requestFullscreen();
     else if (presenter.webkitRequestFullscreen) presenter.webkitRequestFullscreen();
 
@@ -206,6 +213,11 @@ function exitPresent() {
     document.getElementById('presenter').style.display = 'none';
     midiStop();
     clearInterval(autoTimer);
+    
+    // Unlock orientation
+    if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+    }
 }
 
 // 5. EVENT LISTENERS
