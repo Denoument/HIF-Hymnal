@@ -1,0 +1,10 @@
+# Ignore audio and soundfont directories
+audio/
+soundfonts/
+
+# Ignore common OS files
+.DS_Store
+Thumbs.db
+
+# Ignore local environment files
+.env

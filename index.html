@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Hymnal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=GFS+Didot&family=UnifrakturMaguntia&family=Almendra:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+</head>
+<body>
+
+<header>
+    <a href="#" class="header-logo" title="Hsinchu International Fellowship">
+        <img src="logo.png" alt="HIF Logo">
+    </a>
+    <div class="search-wrap">
+        <input type="text" id="searchBar" placeholder="Search by #, title, or lyrics..." oninput="search(this.value)">
+        <div id="dropdown"></div>
+    </div>
+    <button class="settings-btn" onclick="toggleSettings()" title="Presentation Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Slide Settings</span>
+    </button>
+</header>
+
+<main id="content">
+    <div class="hymn-card" id="welcomeCard">
+        <h1>Hymnal Online</h1>
+        <p>Enter a hymn number or title in the search bar above.</p>
+    </div>
+</main>
+
+<!-- Settings Panel Overlay -->
+<div id="settingsOverlay" onclick="closeSettingsOutside(event)"></div>
+
+<!-- Settings Panel -->
+<aside id="settingsPanel">
+    <div class="settings-header">
+        <h2>Slide Settings</h2>
+        <button class="settings-close" onclick="toggleSettings()">&times;</button>
+    </div>
+
+    <!-- Sticky Preview -->
+    <div class="preview-sticky">
+        <p class="preview-label">Live Preview</p>
+        <div id="slidePreview">
+            <div id="previewContent">
+                <small id="previewLabel">Verse 1</small>
+                <div id="previewTitle">Amazing Grace</div>
+                <div id="previewLyrics">Amazing grace, how sweet the sound<br>That saved a wretch like me</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable Options -->
+    <div class="settings-scroll">
+
+        <!-- Theme Pairs -->
+        <div class="settings-section">
+            <h3>Theme</h3>
+            <div class="theme-grid" id="themeGrid"></div>
+        </div>
+
+        <!-- Title Font -->
+        <div class="settings-section">
+            <h3>Title Font</h3>
+            <div class="font-list" id="titleFontList"></div>
+        </div>
+
+        <!-- Lyrics Font -->
+        <div class="settings-section">
+            <h3>Lyrics Font</h3>
+            <div class="font-list" id="lyricsFontList"></div>
+        </div>
+
+        <!-- Text Size -->
+        <div class="settings-section">
+            <h3>Text Size</h3>
+            <div class="size-options" id="sizeOptions"></div>
+        </div>
+
+    </div>
+</aside>
+
+<div id="presenter">
+    <div id="presentContent"></div>
+</div>
+
+<footer>
+    <midi-player id="player" sound-font></midi-player>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
