@@ -655,7 +655,7 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
         padding: 12px;
         padding-top: 110px; /* Space for header + MIDI bar on mobile */
         padding-bottom: 300px; /* Add extra bottom space on mobile */
-		margin-bottom:300px;
+		margin-bottom:30px;
 	}
 	
 
