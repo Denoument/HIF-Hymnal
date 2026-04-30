@@ -146,9 +146,26 @@ input#searchBar {
     overflow-y: auto;
     padding: 20px;
     padding-top: 76px; /* Space for fixed MIDI player bar */
-    display: flex;
+    padding-bottom: 120px; /* Add this - space at bottom for mobile */
+	display: flex;
     justify-content: center;
 	
+	
+}
+/* More space on mobile */
+@media (max-width: 600px) {
+    #content {
+        padding: 12px;
+        padding-top: 110px;
+        padding-bottom: 150px; /* Extra space for mobile */
+    }
+}
+
+/* Even more space for very short screens */
+@media (max-height: 700px) {
+    #content {
+        padding-bottom: 180px;
+    }
 }
 
 .hymn-card {
@@ -158,6 +175,7 @@ input#searchBar {
     box-shadow: none;
     max-width: 800px;
     width: 100%;
+	padding-bottom:150px;
 }
 
 /* Keep welcome card styled on the home screen */
@@ -262,7 +280,7 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
 	padding-top:8px;
     z-index: 1;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-	margin-top:10px;
+	margin-top:5px;
 	
 }
 
@@ -636,7 +654,10 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     #content {
         padding: 12px;
         padding-top: 110px; /* Space for header + MIDI bar on mobile */
-    }
+        padding-bottom: 300px; /* Add extra bottom space on mobile */
+		margin-bottom:300px;
+	}
+	
 
     .hymn-card {
         padding: 20px 16px;
