@@ -49,6 +49,7 @@ header {
     display: flex;
     align-items: center;
     gap: 12px;
+	
 }
 
 .search-wrap {
@@ -56,6 +57,8 @@ header {
     flex: 1;
     max-width: 600px;
     margin: 0 auto;
+	z-index: 99999;
+	isolation: isolate;
 }
 
 input#searchBar {
@@ -66,6 +69,7 @@ input#searchBar {
     font-size: 16px;
     outline: none;
     box-sizing: border-box;
+	z-index: 1000;
 }
 
 /* Settings trigger button in header */
@@ -124,7 +128,7 @@ input#searchBar {
     display: none;
     max-height: 400px;
     overflow-y: auto;
-    z-index: 100;
+    z-index: 99999;
 }
 
 .dropdown-item {
@@ -144,6 +148,7 @@ input#searchBar {
     padding-top: 76px; /* Space for fixed MIDI player bar */
     display: flex;
     justify-content: center;
+	
 }
 
 .hymn-card {
@@ -254,8 +259,11 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     background: #1c2128;
     border-bottom: 1px solid #30363d;
     padding: 8px 12px;
-    z-index: 20;
+	padding-top:8px;
+    z-index: 1;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	margin-top:10px;
+	
 }
 
 .midi-controls {
@@ -621,6 +629,7 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     input#searchBar {
         padding: 10px 14px;
         font-size: 15px;
+		z-index: 1000;
     }
 
     /* Main content */
@@ -662,6 +671,18 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     /* Dropdown */
     #dropdown {
         max-height: 260px;
+    }
+	.search-wrap {
+        z-index: 10001;
+    }
+    
+    #dropdown {
+        max-height: 260px;
+        z-index: 10002;
+    }
+    
+    #midiPlayerBar {
+        z-index: 1; /* Keep this low */
     }
 }
 
