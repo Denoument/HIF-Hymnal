@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>HIF Hymnal</title>
+    <title>Digital Hymnal</title>
     
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -38,6 +38,16 @@
         <span>Slide Settings</span>
     </button>
 </header>
+
+<!-- MIDI Player (Fixed) -->
+<div id="midiPlayerBar">
+    <div class="midi-controls">
+        <button id="playBtn" onclick="playMIDI()" title="Play">▶</button>
+        <button id="pauseBtn" onclick="pauseMIDI()" title="Pause" style="display:none">⏸</button>
+        <button id="stopBtn" onclick="stopMIDI()" title="Stop">⏹</button>
+        <span id="midiStatus">No hymn loaded</span>
+    </div>
+</div>
 
 <main id="content">
     <div class="hymn-card" id="welcomeCard">
@@ -101,15 +111,6 @@
 <div id="presenter">
     <div id="presentContent"></div>
 </div>
-
-<footer>
-    <div class="midi-controls">
-        <button id="playBtn" onclick="playMIDI()" title="Play">▶</button>
-        <button id="pauseBtn" onclick="pauseMIDI()" title="Pause" style="display:none">⏸</button>
-        <button id="stopBtn" onclick="stopMIDI()" title="Stop">⏹</button>
-        <span id="midiStatus">No hymn loaded</span>
-    </div>
-</footer>
 
 <script src="script.js"></script>
 </body>
