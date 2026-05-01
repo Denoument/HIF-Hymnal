@@ -80,11 +80,26 @@ function viewHymn(num) {
     const MAX_LINES_PER_SLIDE = 3;
 
     currentHymn.verses.forEach((v) => {
+        // Display verse in hymn card
         htmlContent += `
             <div class="verse ${v.type === 'refrain' ? 'refrain' : ''}">
                 ${v.number ? `<strong>${v.number}.</strong> ` : ''}${v.lines.join('<br>')}
             </div>`;
         
+        // If this is a verse and there's a refrain, show refrain after it in hymn card
+        if (v.type === 'verse' && refrain) {
+            const currentIndex = currentHymn.verses.indexOf(v);
+            const nextVerse = currentHymn.verses[currentIndex + 1];
+            // Only add refrain if next item isn't already a refrain
+            if (!nextVerse || nextVerse.type !== 'refrain') {
+                htmlContent += `
+                    <div class="verse refrain">
+                        ${refrain.lines.join('<br>')}
+                    </div>`;
+            }
+        }
+        
+        // Build presentation sequence
         let tempLines = [...v.lines];
         let partNum = 1;
         
@@ -102,6 +117,7 @@ function viewHymn(num) {
             presentationSequence.push(v);
         }
 
+        // Add refrain to presentation sequence after verses
         if (v.type === 'verse' && refrain) {
             const currentIndex = currentHymn.verses.indexOf(v);
             const nextVerse = currentHymn.verses[currentIndex + 1];
@@ -257,11 +273,12 @@ const THEMES = [
 ];
 
 const TITLE_FONTS = [
-    { id: 'cinzel',           name: 'Cinzel',             family: "'Cinzel', serif",               sample: 'Amazing Grace' },
-    { id: 'unifraktur',       name: 'UnifrakturMaguntia', family: "'UnifrakturMaguntia', cursive",  sample: 'Amazing Grace' },
-    { id: 'almendra',         name: 'Almendra',           family: "'Almendra', serif",              sample: 'Amazing Grace' },
-    { id: 'gfs-didot',        name: 'GFS Didot',          family: "'GFS Didot', serif",             sample: 'Amazing Grace' },
-    { id: 'playfair-display', name: 'Playfair Display',   family: "'Playfair Display', serif",      sample: 'Amazing Grace' },
+    { id: 'tangerine',       name: 'Tangerine',        family: "'Tangerine', cursive",         sample: 'Amazing Grace' },
+    { id: 'great-vibes',     name: 'Great Vibes',      family: "'Great Vibes', cursive",       sample: 'Amazing Grace' },
+    { id: 'dancing-script',  name: 'Dancing Script',   family: "'Dancing Script', cursive",    sample: 'Amazing Grace' },
+    { id: 'parisienne',      name: 'Parisienne',       family: "'Parisienne', cursive",        sample: 'Amazing Grace' },
+    { id: 'allura',          name: 'Allura',           family: "'Allura', cursive",            sample: 'Amazing Grace' },
+    { id: 'sacramento',      name: 'Sacramento',       family: "'Sacramento', cursive",        sample: 'Amazing Grace' },
 ];
 
 const LYRICS_FONTS = [
@@ -282,7 +299,7 @@ const SIZES = [
 // Current settings state
 const settings = {
     themeId:      'ivory-onyx',
-    titleFontId:  'cinzel',
+    titleFontId:  'tangerine',
     lyricsFontId: 'cormorant',
     sizeId:       'medium',
 };

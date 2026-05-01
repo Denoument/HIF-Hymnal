@@ -309,7 +309,7 @@ button { border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; 
     font-family: var(--present-title-font);
     font-weight: 700;
     letter-spacing: 0.02em;
-    font-size: 1.2em; /* 20% larger than lyrics */
+    font-size: 1.8em; /* 80% larger than lyrics */
 }
 
 .close-x {
