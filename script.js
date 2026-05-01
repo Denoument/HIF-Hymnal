@@ -117,6 +117,7 @@ function viewHymn(num) {
 
     const paddedNum = currentHymn.number.toString().padStart(3, '0');
     midiLoad(`midi/${paddedNum}.mid`);
+    updateNavButtons();
 }
 
 // 4. PRESENTATION LOGIC
@@ -486,3 +487,72 @@ function updateMidiButtons() {
     pauseBtn.disabled = !currentMidiUrl;
     document.getElementById('stopBtn').disabled = !currentMidiUrl;
 }
+
+// ============================================================
+// 8. HYMN NAVIGATION (Prev/Next + Swipe)
+// ============================================================
+
+function navigateHymn(direction) {
+    if (!currentHymn) return;
+    
+    const currentIndex = hymns.findIndex(h => h.number === currentHymn.number);
+    const nextIndex = currentIndex + direction;
+    
+    if (nextIndex >= 0 && nextIndex < hymns.length) {
+        viewHymn(hymns[nextIndex].number);
+    }
+}
+
+function updateNavButtons() {
+    const prevBtn = document.querySelector('.nav-prev');
+    const nextBtn = document.querySelector('.nav-next');
+    
+    if (!currentHymn) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    }
+    
+    const currentIndex = hymns.findIndex(h => h.number === currentHymn.number);
+    
+    // Show/hide based on position
+    prevBtn.style.display = currentIndex > 0 ? 'flex' : 'none';
+    nextBtn.style.display = currentIndex < hymns.length - 1 ? 'flex' : 'none';
+}
+
+// Touch/Swipe Support for Mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleSwipe() {
+    const swipeThreshold = 100; // Minimum distance for swipe
+    const diff = touchEndX - touchStartX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe right = previous
+            navigateHymn(-1);
+        } else {
+            // Swipe left = next
+            navigateHymn(1);
+        }
+    }
+}
+
+document.getElementById('content').addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.getElementById('content').addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+// Keyboard navigation (arrow keys)
+document.addEventListener('keydown', (e) => {
+    // Only if not in presentation mode
+    if (document.getElementById('presenter').style.display !== 'flex') {
+        if (e.key === 'ArrowLeft') navigateHymn(-1);
+        if (e.key === 'ArrowRight') navigateHymn(1);
+    }
+});
