@@ -173,7 +173,7 @@ input#searchBar {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(44, 62, 80, 0.7);
+    background: rgba(44, 62, 80, 0.85);
     border: none;
     color: white;
     width: 50px;
@@ -183,9 +183,10 @@ input#searchBar {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 15;
+    z-index: 1000;
     transition: background 0.2s, transform 0.2s;
     backdrop-filter: blur(4px);
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Add shadow for visibility */
 }
 
 .nav-btn:hover {

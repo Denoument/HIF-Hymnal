@@ -50,23 +50,23 @@
 </div>
 
 <main id="content">
-    <button class="nav-btn nav-prev" onclick="navigateHymn(-1)" title="Previous hymn" style="display:none">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-    </button>
-    
-    <button class="nav-btn nav-next" onclick="navigateHymn(1)" title="Next hymn" style="display:none">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-    </button>
-    
-    <div class="hymn-card" id="welcomeCard">
+   <div class="hymn-card" id="welcomeCard">
         <h1>Hymnal Online</h1>
         <p>Enter a hymn number or title in the search bar above.</p>
     </div>
 </main>
+<!--navigation buttons-->
+<button class="nav-btn nav-prev" onclick="navigateHymn(-1)" title="Previous hymn" style="display:none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+</button>
+
+<button class="nav-btn nav-next" onclick="navigateHymn(1)" title="Next hymn" style="display:none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</button>
 
 <!-- Settings Panel Overlay -->
 <div id="settingsOverlay" onclick="closeSettingsOutside(event)"></div>
