@@ -173,7 +173,7 @@ input#searchBar {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(44, 62, 80, 0.85);
+    background: rgba(44, 62, 80, 0.25);
     border: none;
     color: white;
     width: 50px;
