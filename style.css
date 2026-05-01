@@ -186,7 +186,7 @@ input#searchBar {
     z-index: 1000;
     transition: background 0.2s, transform 0.2s;
     backdrop-filter: blur(4px);
-	box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Add shadow for visibility */
+
 }
 
 .nav-btn:hover {
