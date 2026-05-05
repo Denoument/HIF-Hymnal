@@ -72,12 +72,21 @@ function viewHymn(num) {
         <div class="hymn-card">
             <div class="btn-row">
                 <button class="btn-manual" onclick="startPresent(false)">Manual Presentation</button>
+                <button class="btn-cast" onclick="openCastMenu()" title="Cast to TV">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"></path>
+                        <line x1="2" y1="20" x2="2.01" y2="20"></line>
+                    </svg>
+                    Cast
+                </button>
                 <button class="btn-auto" onclick="startPresent(true)">Auto Presentation</button>
             </div>
             <h1>${currentHymn.number}. ${currentHymn.title}</h1>
     `;
 
-    const MAX_LINES_PER_SLIDE = 3;
+    // Get max lines per slide based on current size setting
+    const currentSize = SIZES.find(s => s.id === settings.sizeId) || SIZES[1];
+    const MAX_LINES_PER_SLIDE = currentSize.maxLines;
 
     currentHymn.verses.forEach((v) => {
         // Display verse in hymn card
@@ -99,21 +108,20 @@ function viewHymn(num) {
             }
         }
         
-        // Build presentation sequence
+        // Build presentation sequence with intelligent splitting
         let tempLines = [...v.lines];
-        let partNum = 1;
         
         if (tempLines.length > MAX_LINES_PER_SLIDE) {
+            // Split into multiple slides
             while (tempLines.length > 0) {
                 const chunk = tempLines.splice(0, MAX_LINES_PER_SLIDE);
                 presentationSequence.push({ 
                     ...v, 
-                    lines: chunk, 
-                    partLabel: v.lines.length > MAX_LINES_PER_SLIDE ? ` (Part ${partNum})` : "" 
+                    lines: chunk
                 });
-                partNum++;
             }
         } else {
+            // Entire verse fits in one slide
             presentationSequence.push(v);
         }
 
@@ -181,11 +189,14 @@ function updateSlide() {
                 // Title slide - use title font, no number
                 el.innerHTML = `<div class="title-slide">${slide.lines[0]}</div>`;
             } else {
-                // Regular verse/refrain slide
-                if (slide.type === 'refrain') label = "<small>[Refrain]</small><br>";
-                else if (slide.number) label = `<small>Verse ${slide.number}${slide.partLabel || ""}</small><br>`;
+                // Regular verse/refrain slide - simple centered label at top
+                if (slide.type === 'refrain') {
+                    label = "<div class='slide-label'>Refrain</div>";
+                } else if (slide.number) {
+                    label = `<div class='slide-label'>${slide.number}</div>`;
+                }
                 
-                el.innerHTML = `${label}${slide.lines.join('<br>')}`;
+                el.innerHTML = `${label}<div class='slide-lyrics'>${slide.lines.join('<br>')}</div>`;
             }
             
             adjustFontSize();
@@ -200,21 +211,24 @@ function adjustFontSize() {
     const textEl = document.getElementById('presentContent');
     const slide = presentationSequence[slideIdx];
     
-    // Use the user's chosen base size as starting point
-    const baseSizeVh = parseFloat(getComputedStyle(document.documentElement)
-        .getPropertyValue('--present-font-size')) || 60;
-    
-    let fontSize = baseSizeVh;
-    textEl.style.fontSize = fontSize + "vh";
-
-    // Auto-shrink if text overflows (for both title and lyrics)
-    while (
-        (textEl.scrollHeight > container.clientHeight * 0.80 || 
-         textEl.scrollWidth > container.clientWidth * 0.90) && 
-        fontSize > 8
-    ) {
-        fontSize -= 0.5;
+    if (slide && slide.type === 'title') {
+        // Title slide: fixed large size, shrink only if overflow
+        let fontSize = 20; // Fixed 12vh for title
         textEl.style.fontSize = fontSize + "vh";
+        
+        while (
+            (textEl.scrollHeight > container.clientHeight * 0.80 || 
+             textEl.scrollWidth > container.clientWidth * 0.90) && 
+            fontSize > 6
+        ) {
+            fontSize -= 0.5;
+            textEl.style.fontSize = fontSize + "vh";
+        }
+    } else {
+        // Lyrics slides: use user's chosen size, never auto-shrink
+        const baseSizeVh = parseFloat(getComputedStyle(document.documentElement)
+            .getPropertyValue('--present-font-size')) || 6;
+        textEl.style.fontSize = baseSizeVh + "vh";
     }
 }
 
@@ -290,10 +304,10 @@ const LYRICS_FONTS = [
 ];
 
 const SIZES = [
-    { id: 'small',   name: 'Small',   vh: 44, desc: 'More lines visible' },
-    { id: 'medium',  name: 'Medium',  vh: 60, desc: 'Balanced (default)' },
-    { id: 'large',   name: 'Large',   vh: 74, desc: 'Back rows friendly' },
-    { id: 'xlarge',  name: 'X-Large', vh: 88, desc: 'Maximum impact' },
+    { id: 'small',   name: 'Small',   vh: 4.5, maxLines: 6, desc: 'Entire verse' },
+    { id: 'medium',  name: 'Medium',  vh: 6, maxLines: 4, desc: 'Balanced (default)' },
+    { id: 'large',   name: 'Large',   vh: 7.5, maxLines: 3, desc: 'Back rows friendly' },
+    { id: 'xlarge',  name: 'X-Large', vh: 9, maxLines: 2, desc: 'Maximum impact' },
 ];
 
 // Current settings state
@@ -573,3 +587,17 @@ document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') navigateHymn(1);
     }
 });
+
+// ============================================================
+// 9. CHROMECAST / SCREEN CASTING
+// ============================================================
+
+function openCastMenu() {
+    // First, enter fullscreen presentation mode
+    startPresent(false);
+    
+    // Then show instructions to user
+    setTimeout(() => {
+        alert('To cast to your TV:\n\n1. Click the three dots (⋮) in Chrome\n2. Select "Cast..."\n3. Choose your Chromecast/TV\n4. Click "Cast tab"\n\nThe presentation will appear on your TV!');
+    }, 500);
+}
